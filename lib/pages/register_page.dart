@@ -17,7 +17,7 @@ class RegisterPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Logo(titulo: 'Registro'),
+                  const Logo(titulo: 'Registro'),
                   _Form(),
                   const Labels(
                     route: 'login',
@@ -26,7 +26,7 @@ class RegisterPage extends StatelessWidget {
                   ),
                   const Text(
                     'Terminos y condiciones de uso',
-                    style: const TextStyle(fontWeight: FontWeight.w200),
+                    style: TextStyle(fontWeight: FontWeight.w200),
                   ),
                 ],
               ),
