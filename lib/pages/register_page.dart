@@ -8,31 +8,32 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color(0xffF2F2F2),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.9,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Logo(titulo: 'Registro'),
-                  _Form(),
-                  const Labels(
-                    route: 'login',
-                    title: '¿Ya tienes cuenta?',
-                    subtitle: 'Ingresa ahora',
-                  ),
-                  const Text(
-                    'Terminos y condiciones de uso',
-                    style: TextStyle(fontWeight: FontWeight.w200),
-                  ),
-                ],
-              ),
+      backgroundColor: const Color(0xffF2F2F2),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.9,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Logo(titulo: 'Registro'),
+                _Form(),
+                const Labels(
+                  route: 'login',
+                  title: '¿Ya tienes cuenta?',
+                  subtitle: 'Ingresa ahora',
+                ),
+                const Text(
+                  'Terminos y condiciones de uso',
+                  style: TextStyle(fontWeight: FontWeight.w200),
+                ),
+              ],
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
 
