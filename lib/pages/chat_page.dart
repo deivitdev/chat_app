@@ -44,31 +44,29 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
           ],
         ),
       ),
-      body: Container(
-        child: Column(
-          children: [
-            Flexible(
-              child: ListView.builder(
-                physics: const BouncingScrollPhysics(),
-                itemCount: _messages.length,
-                itemBuilder: (_, int i) => _messages[i],
-                reverse: true,
-              ),
+      body: Column(
+        children: [
+          Flexible(
+            child: ListView.builder(
+              physics: const BouncingScrollPhysics(),
+              itemCount: _messages.length,
+              itemBuilder: (_, int i) => _messages[i],
+              reverse: true,
             ),
-            const Divider(
-              height: 1,
-            ),
-            Container(
-              color: Colors.white,
-              child: _InputChat(),
-            )
-          ],
-        ),
+          ),
+          const Divider(
+            height: 1,
+          ),
+          Container(
+            color: Colors.white,
+            child: _inputChat(),
+          )
+        ],
       ),
     );
   }
 
-  Widget _InputChat() {
+  Widget _inputChat() {
     return SafeArea(
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 8),
@@ -79,7 +77,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
                 controller: _textController,
                 onSubmitted: _handleSubmit,
                 onChanged: (text) {
-                  if (text.trim().length > 0) {
+                  if (text.trim().isNotEmpty) {
                     _isWriting = true;
                   } else {
                     _isWriting = false;
@@ -94,8 +92,8 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
               margin: const EdgeInsets.symmetric(horizontal: 4),
               child: Platform.isIOS
                   ? CupertinoButton(
-                      child: const Text('Enviar'),
                       onPressed: _isWriting ? () => _handleSubmit(_textController.text.trim()) : null,
+                      child: const Text('Enviar'),
                     )
                   : Container(
                       margin: const EdgeInsets.symmetric(horizontal: 4),
@@ -129,7 +127,7 @@ class _ChatPageState extends State<ChatPage> with TickerProviderStateMixin {
     final newMessage = ChatMessage(
       text: text,
       uid: '123',
-      animationController: AnimationController(vsync: this, duration: Duration(milliseconds: 400)),
+      animationController: AnimationController(vsync: this, duration: const Duration(milliseconds: 400)),
     );
 
     _messages.insert(0, newMessage);

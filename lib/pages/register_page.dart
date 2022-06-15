@@ -1,5 +1,9 @@
+import 'package:chat_app/helpers/mostrar_alerta.dart';
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
+
+import 'package:chat_app/services/auth_services.dart';
 import 'package:chat_app/widgets/widgets.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -12,7 +16,7 @@ class RegisterPage extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
-          child: Container(
+          child: SizedBox(
             height: MediaQuery.of(context).size.height * 0.9,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -49,6 +53,8 @@ class __FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context);
+
     return Container(
       margin: const EdgeInsets.only(top: 40),
       padding: const EdgeInsets.symmetric(horizontal: 50),
@@ -75,10 +81,21 @@ class __FormState extends State<_Form> {
           ),
           BtnBlue(
             text: 'Ingrese',
-            onPressed: () {
-              print(emailCtrl.text);
-              print(passCtrl.text);
-            },
+            onPressed: authService.autenticando
+                ? null
+                : () async {
+                    print(nameCtrl.text);
+                    print(emailCtrl.text);
+                    print(passCtrl.text);
+                    final registroOK = await authService.register(nameCtrl.text.trim(), emailCtrl.text.trim(), passCtrl.text.trim());
+
+                    if (registroOK == true) {
+                      //TODO Conectar al socket server
+                      Navigator.pushReplacementNamed(context, 'users');
+                    } else {
+                      mostrarAlerta(context, 'Registro incorrecto', registroOK);
+                    }
+                  },
           ),
         ],
       ),

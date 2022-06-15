@@ -1,6 +1,12 @@
+// ignore_for_file: unnecessary_const
+
+import 'package:chat_app/helpers/mostrar_alerta.dart';
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
 import 'package:chat_app/widgets/widgets.dart';
+
+import 'package:chat_app/services/auth_services.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -12,12 +18,12 @@ class LoginPage extends StatelessWidget {
         body: SafeArea(
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
-            child: Container(
+            child: SizedBox(
               height: MediaQuery.of(context).size.height * 0.9,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Logo(
+                  const Logo(
                     titulo: 'Messenger',
                   ),
                   _Form(),
@@ -49,6 +55,8 @@ class __FormState extends State<_Form> {
 
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context);
+
     return Container(
       margin: const EdgeInsets.only(top: 40),
       padding: const EdgeInsets.symmetric(horizontal: 50),
@@ -69,10 +77,19 @@ class __FormState extends State<_Form> {
           ),
           BtnBlue(
             text: 'Ingrese',
-            onPressed: () {
-              print(emailCtrl.text);
-              print(passCtrl.text);
-            },
+            onPressed: authService.autenticando
+                ? () => {}
+                : () async {
+                    FocusScope.of(context).unfocus();
+                    final loginOk = await authService.login(emailCtrl.text.trim(), passCtrl.text.trim());
+                    if (loginOk) {
+                      //TODO: conectar a nuestro socket server
+
+                      Navigator.pushReplacementNamed(context, 'users');
+                    } else {
+                      mostrarAlerta(context, 'Login incorrecto', 'Revise sus credenciales nuevamente');
+                    }
+                  },
           ),
         ],
       ),
